@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Legal entities</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}"/>
+</head>
+<body>
+
+
+
+<form method="get" th:action="${'/manage/payments/'}">
+    <table>
+        <tr>
+            <td><input type="date" id="dateBegin" name="dateBegin"/></td>
+            <td><input type="date" id="dateEnd" name="dateEnd"/></td>
+        </tr>
+    </table>
+    <!--<input type="hidden" name="legalEntityId" th:value="${legalEntity.id}"/>-->
+    <button type="submit">Просмотр</button>
+</form>
+
+<table class="tg" th:if="${payments!=null}">
+    <tr>
+        <th width="80">Номер</th>
+        <th width="120">Дата</th>
+        <th width="120">Счет отправителя</th>
+        <th width="60">Юр. лицо поулчателя</th>
+        <th width="60">Счет получателя</th>
+        <th width="60">Контракт</th>
+        <th width="60">Код валюты</th>
+        <th width="60">Сумма платежа</th>
+        <th width="60">Причина</th>
+        <th width="60">Код приоритета</th>
+        <th width="60">Статус</th>
+        <th width="60">Причина отказа</th>
+        <th width="60">Управление</th>
+    </tr>
+    <tr th:each="payment : ${payments}">
+        <td th:text="${payment.num}"></td>
+        <td th:text="${payment.date}"></td>
+        <td th:text="${payment.senderAccount.num}"></td>
+        <td th:text="${payment.recipientLegalEntity.shortName}"></td>
+        <td th:text="${payment.recipientAccount.num}"></td>
+        <td th:text="${payment.contract != null} ? ${payment.contract.name} : 'Нет'"></td>
+        <td th:text="${payment.currencyCode}"></td>
+        <td th:text="${payment.orderAmount}"></td>
+        <td th:text="${payment.reason}"></td>
+        <td th:text="${payment.priorityCode}"></td>
+        <td th:text="${payment.status.name}"></td>
+        <td th:text="${payment.rejectReason}"></td>
+        <!--<td th:text="${payment.status.name}"></td>-->
+        <td >
+            <a th:text="${payment.status.code.toString()=='NEW' or payment.status.code.toString()=='TAKED'} ? Отменить : ''"
+               th:href="${'/manage/payments/cancel?paymentId=/'+{payment.id}}"></a>
+        </td>
+    </tr>
+    <!--th:text="${payment.status.code.toString()=='NEW' or payment.status.code.toString()=='TAKED'} ? Удалить : ''"-->
+</table>
+
+<a href="/manage/create_payment/new">Создать платежное поручение</a>
+<p/>
+<a href="/manage/home">Назад</a>
+
+<!--<a th:href="/manage/create_payment/new">Создать платежное поручение</a>-->
+
+
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Legal entities</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}"/>
+
+
+</head>
+
+<body>
+
+<form th:action="@{/logout}" method="get">
+    <button class="btn btn-md btn-danger btn-block" name="registration"
+            type="Submit">Logout
+    </button>
+</form>
+
+<div class="panel-group" style="margin-top:40px">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <span th:utext="${userName}"></span>
+        </div>
+    </div>
+</div>
+<!--<h3 th:text="'Информация о пользователе: '+ ${legalEntities.fullName}"></h3>-->
+
+<table class="tg">
+    <tr>
+        <th width="80">shortName</th>
+        <th width="120">fullName</th>
+        <th width="120">inn</th>
+        <th width="120">kpp</th>
+        <th width="60">ogrn</th>
+        <th width="60">Address</th>
+        <th width="60">Manage</th>
+        <th width="60">Платежные поручения</th>
+        <!--<th width="60">Исходящие контракты</th>-->
+        <!--<th width="60">Входящие контракты</th>-->
+    </tr>
+
+
+    <tr th:each="legalEntity : ${legalEntities}">
+        <td th:text="${legalEntity.shortName}"></td>
+        <td th:text="${legalEntity.fullName}"></td>
+        <td th:text="${legalEntity.inn}"></td>
+        <td th:text="${legalEntity.kpp}"></td>
+        <td th:text="${legalEntity.ogrn}"></td>
+        <td th:text="${legalEntity.address}"></td>
+        <td>
+            <a th:href="${'/manage/accounts?legalEntityId='+{legalEntity.id}}">Счета</a>
+        </td>
+        <td>
+            <!--<form method="Get" th:action="@{/manage/payments/{${legalEntity.id}}">-->
+            <a th:href="${'/manage/show_payments?legalEntityId='+{legalEntity.id}}">Выбрать</a>
+        </td>
+        <!--<td>-->
+            <!--<a th:href="${'/manage/issuer_contracts/'+{legalEntity.id}}">Исходящие контракты</a>-->
+        <!--</td>-->
+        <!--<td>-->
+            <!--<a th:href="${'/manage/singer_contracts/'+{legalEntity.id}}">Входящие контракты</a>-->
+        <!--</td>-->
+
+        <!--<td><a th:href="${'/manage/account/'+{legalEntity.id}}" th:text="Управление"></a></td>-->
+    </tr>
+</table>
+<a href="/end_op_day">Конец опреационного дня</a>
+<!--<td>-->
+    <!--<form method="post" th:action="@{/manage/create_payment}">-->
+        <!--<input type="hidden" name="legalEntityId" th:value="${legalEntity.id}"/>-->
+        <!--<button type="submit" name="submit" value="value" class="link-button">Создать платежное поручение</button>-->
+    <!--</form>-->
+<!--</td>-->
+
+</body>
+</html>

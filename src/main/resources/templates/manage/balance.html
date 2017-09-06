@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>AccountBalance</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}"/>
+</head>
+
+<body>
+<h1>Остаток на счете</h1>
+<p>Текущий остаток на счете</p>
+<p th:text="${currentBalance.amount}"></p>
+<p>Показать остаток на конкретную дату</p>
+<form method="get" th:action="@{/manage/account/balance}">
+    <input type="date" id="date" name="date"/>
+    <input type="hidden" id="accountId" name="accountId" th:value="${currentBalance.account.id}"/>
+    <button type="submit">Просмотр</button>
+</form>
+<!--<a th:href="${'/manage/account/balance?accountId='+{account.id}+'&date='date}"></a>-->
+
+<p th:text="${balanceByDate != null} ? 'баланс на '+${date}+': '+${balanceByDate.amount} : ''">someValue</p>
+
+<div><a href="/manage/accounts">Назад</a></div>
+
+<!--<h3 th:text="'Информация о пользователе: '+ ${legalEntities.fullName}"></h3>-->
+<!--<table class="tg">-->
+<!--<tr>-->
+<!--<th width="80">name</th>-->
+<!--<th width="120">num</th>-->
+<!--<th width="120">bank</th>-->
+<!--<th width="60">currency</th>-->
+<!--<th width="60">status</th>-->
+<!--<th width="60">Остаток</th>-->
+<!--</tr>-->
+<!--<tr th:each="account : ${accounts}">-->
+<!--<td th:text="${account.name}"></td>-->
+<!--<td th:text="${account.num}"></td>-->
+<!--<td th:text="${account.bank.name}"></td>-->
+<!--<td th:text="${account.currencyCode}"></td>-->
+<!--<td th:text="${account.status.name}"></td>-->
+<!--<td><form method="POST" th:action="@{/manage/account/balace}">-->
+<!--<input type="hidden" name="accountId" id="accountId" th:value="${account.id}"/>-->
+<!--<button type="submit" name="submit" value="value" class="link-button">Счета</button>-->
+<!--</form> </td>-->
+<!--&lt;!&ndash;<td><a th:href="${'/info/'+{legalEntity.id}}" th:text="Управление"></a></td>&ndash;&gt;-->
+<!--</tr>-->
+<!--</table>-->
+
+</body>
+</html>

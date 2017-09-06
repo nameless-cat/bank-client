@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Payments</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}"/>
+</head>
+
+<body>
+<h1>Создать поручение</h1>
+<table class="tg">
+    <!--<tr>-->
+        <!--<td>Валюта платежа</td>-->
+        <!--<td th:text="${order.currencyCode != null} ? ${order.currencyCode}: 'Не определена'"></td>-->
+
+    <!--</tr>-->
+    <tr>
+        <td>Договор</td>
+        <td th:text="${order.contract != null} ? ${order.contract.name}+ ' '+${order.contract.num}: 'Не выбран'"></td>
+
+        <td>
+            <a th:href="@{/manage/payment_fields/contract}">Выбрать</a>
+        </td>
+    </tr>
+    <tr>
+        <td>Счет отправителя</td>
+        <td th:text="${order.senderAccount != null} ? ${order.senderAccount.num} : 'Не выбран'"></td>
+        <td>
+            <a th:href="@{/manage/payment_fields/senderAccount}">Выбрать</a>
+        </td>
+    </tr>
+    <tr>
+        <td>Контрагент</td>
+        <td th:text="${order.recipientLegalEntity != null} ? ${order.recipientLegalEntity.shortName} : 'Не выбран'"></td>
+        <td>
+            <a th:href="@{/manage/payment_fields/recipientLegalEntity}">Выбрать</a>
+        </td>
+    </tr>
+    <tr>
+        <td>Счет получателя</td>
+        <td th:text="${order.recipientAccount != null} ? ${order.recipientAccount.num} : 'Не выбран'"></td>
+        <td>
+            <a th:href="@{/manage/payment_fields/recipientAccount}">Выбрать</a>
+        </td>
+    </tr>
+</table>
+<form method="POST" action="/manage/create_payment/check">
+    <input type="text" name="amount" th:placeholder="Сумма"/>
+    <input type="text" name="reason" th:placeholder="Причина"/>
+    <button type="submit" name="submit" value="value" class="link-button">Создать</button>
+</form>
+
+<a th:href="${'/manage/payments/'+{order.senderLegalEntity.id}}">Отмена</a>
+<!--<div th:if="${error!=null}">-->
+    <!--<p style="font-size: 20; color: #FF1C19;" th:text="${error}"></p>-->
+<!--</div>-->
+<!--<p th:text="${order.senderAccount.currencyCode != order.contract.currencyCode} ? 'Код валюты счета отправителя должен быть равен коду валюты в контракте!' : ''"></p>-->
+
+
+</body>
+</html>
