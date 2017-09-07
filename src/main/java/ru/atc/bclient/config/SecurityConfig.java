@@ -18,41 +18,42 @@ import java.io.Serializable;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    //@Value("${spring.queries.users-query}")
-    @Value("select user_login, user_password, true from bclient.dim_user where user_login=?")
-    private String usersQuery;
-    //@Value("${spring.queries.roles-query}")
-    @Value("select user_login, 'USER' from bclient.dim_user where user_login=?")
-    private String rolesQuery;
-    @Autowired
-    private DataSource dataSource;
+  //@Value("${spring.queries.users-query}")
+  @Value("select user_login, user_password, true from bclient.dim_user where user_login=?")
+  private String usersQuery;
+  //@Value("${spring.queries.roles-query}")
+  @Value("select user_login, 'USER' from bclient.dim_user where user_login=?")
+  private String rolesQuery;
+  @Autowired
+  private DataSource dataSource;
 
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.
-                jdbcAuthentication()
-                .usersByUsernameQuery(usersQuery)
-                .authoritiesByUsernameQuery(rolesQuery)
-                .dataSource(dataSource);
-    }
+  @Autowired
+  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    auth.
+        jdbcAuthentication()
+        .usersByUsernameQuery(usersQuery)
+        .authoritiesByUsernameQuery(rolesQuery)
+        .dataSource(dataSource);
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.
-                authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/registration").permitAll()
-                .antMatchers("/manage/**").hasAuthority("USER").anyRequest()
-                .authenticated().and().csrf().disable().formLogin()
-                .loginPage("/login").failureUrl("/login?error=true")
-                .defaultSuccessUrl("/manage/home")
-                .usernameParameter("login")
-                .passwordParameter("password")
-                .and().logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/").and().exceptionHandling()
-                .accessDeniedPage("/");
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.
+        authorizeRequests()
+        .antMatchers("/").permitAll()
+        .antMatchers("/login").permitAll()
+        .antMatchers("/registration").permitAll()
+        .antMatchers("/webjars/**").permitAll()
+        .antMatchers("/manage/**").hasAuthority("USER").anyRequest()
+        .authenticated().and().csrf().disable().formLogin()
+        .loginPage("/login").failureUrl("/login?error=true")
+        .defaultSuccessUrl("/manage/home")
+        .usernameParameter("login")
+        .passwordParameter("password")
+        .and().logout()
+        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+        .logoutSuccessUrl("/").and().exceptionHandling()
+        .accessDeniedPage("/");
+  }
 }

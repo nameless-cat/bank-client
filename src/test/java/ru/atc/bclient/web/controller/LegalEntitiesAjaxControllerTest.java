@@ -25,8 +25,9 @@ public class LegalEntitiesAjaxControllerTest {
 
   @Test
   public void testGetBalance() throws Exception {
-    mockMvc.perform(get("/manage/account/balance")
-        .param("accountId", "1"))
+    mockMvc.perform(get("/manage/account/balanceWithDate")
+        .param("accountId", "1")
+        .param("date", "2017-09-07"))
         .andDo(print())
         .andExpect(status().isOk());
   }

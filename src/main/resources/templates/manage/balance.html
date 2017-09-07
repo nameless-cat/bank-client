@@ -2,24 +2,27 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>AccountBalance</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>AccountBalance</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}"/>
+  <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
 </head>
 
 <body>
 <h1>Остаток на счете</h1>
 <p>Текущий остаток на счете</p>
-<p th:text="${currentBalance.amount}"></p>
+<p id="bal-cur" th:text="${currentBalance.amount}"></p>
 <p>Показать остаток на конкретную дату</p>
-<form method="get" th:action="@{/manage/account/balance}">
-    <input type="date" id="date" name="date"/>
-    <input type="hidden" id="accountId" name="accountId" th:value="${currentBalance.account.id}"/>
-    <button type="submit">Просмотр</button>
+<form method="get" id="balanceForm" th:action="@{/manage/account/balance}">
+  <input type="date" id="date" name="date"/>
+  <input type="hidden" id="accountId" name="accountId" th:value="${currentBalance.account.id}"/>
+  <button type="button" id="submit">Просмотр</button>
+  <button type="button" id="clear-btn">Сброс</button>
 </form>
 <!--<a th:href="${'/manage/account/balance?accountId='+{account.id}+'&date='date}"></a>-->
 
-<p th:text="${balanceByDate != null} ? 'баланс на '+${date}+': '+${balanceByDate.amount} : ''">someValue</p>
+<p id="bal-by-date" th:text="${balanceByDate != null} ? 'баланс на '+${date}+': '+${balanceByDate.amount} : ''">
+  someValue</p>
 
 <div><a href="/manage/accounts">Назад</a></div>
 
@@ -47,5 +50,7 @@
 <!--</tr>-->
 <!--</table>-->
 
+<script th:src="@{/js/ajax.js}" type="text/javascript" defer="defer"></script>
+<script th:src="@{/js/functions.js}" type="text/javascript" defer="defer"></script>
 </body>
 </html>

@@ -25,6 +25,7 @@
     <postgresql.version>42.1.3</postgresql.version>
     <junit.version>4.12</junit.version>
     <lombok.version>1.16.18</lombok.version>
+    <webjars-jquery.version>3.2.1</webjars-jquery.version>
   </properties>
 
   <dependencies>
@@ -146,6 +147,13 @@
       <artifactId>spring-security-test</artifactId>
       <version>4.2.2.RELEASE</version>
       <scope>test</scope>
+    </dependency>
+
+    <!--webjars-->
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>jquery</artifactId>
+      <version>${webjars-jquery.version}</version>
     </dependency>
 
 

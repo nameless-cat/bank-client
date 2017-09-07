@@ -93,23 +93,14 @@ public class LegalEntitiesController {
 //        return modelAndView;
 //    }
 
-  /*  @RequestMapping(value = "/manage/account/balance", method = RequestMethod.GET)
-    public ModelAndView getBalance(@RequestParam("accountId") int accountId, @RequestParam(value = "date", required = false) String dateString) {
-        Date date = null;
-        try {
-            date = Date.valueOf(dateString);
-        } catch (IllegalArgumentException e) {
-        }
+    @RequestMapping(value = "/manage/account/balance", method = RequestMethod.GET)
+    public ModelAndView getBalance(@RequestParam("accountId") int accountId) {
         ModelAndView modelAndView = new ModelAndView();
         AccountBalance newestByAccountId = accountBalanceService.getNewestByAccountId(accountId);
         modelAndView.addObject("currentBalance", newestByAccountId);
-        if (date != null) {
-            modelAndView.addObject("balanceByDate", accountBalanceService.getByAccountAndDate(accountId, date));
-            modelAndView.addObject("date", date);
-        }
         modelAndView.setViewName("manage/balance");
         return modelAndView;
-    }*/
+    }
 
 
 }
