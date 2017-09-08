@@ -23,3 +23,37 @@ var getBalance = function () {
     }
   });
 };
+
+var getPayments = function () {
+  var url = "/manage/paymentsWithDate";
+
+  $.ajax({
+    type: "GET",
+    url: url,
+    data: $("#paymentsForm").serialize(), // serializes the form's elements.
+    success: function (json) {
+      var data = [];
+
+      for (var i = 0; i < json.payments.length; i++) {
+        data.push(json.payments[i]);
+      }
+      datatableApi.clear().rows.add(data).draw();
+    }
+  });
+};
+
+var cancelButtonRender = function (data, type, row) {
+  return '<button type="button" onclick="cancelOrder(' + row.id + ')">Отменить</button>'
+};
+
+var cancelOrder = function (paymentId) {
+  var url = "/manage/payments/cancel/";
+
+  $.ajax({
+    type: "PUT",
+    url: url + paymentId,
+    success: function() {
+      getPayments();
+    }
+  });
+};

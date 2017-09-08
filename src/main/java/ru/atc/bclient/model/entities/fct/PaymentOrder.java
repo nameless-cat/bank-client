@@ -1,5 +1,6 @@
 package ru.atc.bclient.model.entities.fct;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import ru.atc.bclient.cache.Cache;
 import ru.atc.bclient.model.entities.dim.Account;
 import ru.atc.bclient.model.entities.dim.Contract;
@@ -10,204 +11,217 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.sql.Date;
+import ru.atc.bclient.web.controller.view.View;
 
 @Table(name = "fct_payment_order", schema = "bclient")
 @Entity
 @Access(AccessType.FIELD)
-//@Component
-//@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class PaymentOrder {
-    @Id
-    @Column(name = "payment_order_id")
-    @SequenceGenerator(name = "seqPaymentOrderId", sequenceName = "seq_payment_order_id", schema = "bclient")
-    @GeneratedValue(generator = "seqPaymentOrderId", strategy = GenerationType.SEQUENCE)
-    @Access(AccessType.PROPERTY)
-    private int id;
 
-    @Column(name = "payment_order_num")
-    @NotNull
-    private int num;
+  @JsonView(View.PaymentsWithDate.class)
+  @Id
+  @Column(name = "payment_order_id")
+  @SequenceGenerator(name = "seqPaymentOrderId", sequenceName = "seq_payment_order_id", schema = "bclient")
+  @GeneratedValue(generator = "seqPaymentOrderId", strategy = GenerationType.SEQUENCE)
+  @Access(AccessType.PROPERTY)
+  private int id;
 
-    @Column(name = "payment_order_date")
-    @NotNull
-    private Date date;
+  @JsonView(View.PaymentsWithDate.class)
+  @Column(name = "payment_order_num")
+  @NotNull
+  private int num;
 
-    @ManyToOne
-    @JoinColumn(name = "sender_legal_entity_id")
-    @NotNull
-    private LegalEntity senderLegalEntity;
+  @JsonView(View.PaymentsWithDate.class)
+  @Column(name = "payment_order_date")
+  @NotNull
+  private Date date;
 
-    @ManyToOne
-    @JoinColumn(name = "sender_account_id")
-    @NotNull
-    private Account senderAccount;
+  @ManyToOne
+  @JoinColumn(name = "sender_legal_entity_id")
+  @NotNull
+  private LegalEntity senderLegalEntity;
 
-    @ManyToOne
-    @JoinColumn(name = "recipient_legal_entity_id")
-    @NotNull
-    private LegalEntity recipientLegalEntity;
+  @JsonView(View.PaymentsWithDate.class)
+  @ManyToOne
+  @JoinColumn(name = "sender_account_id")
+  @NotNull
+  private Account senderAccount;
 
-    @ManyToOne
-    @JoinColumn(name = "recipient_account_id")
-    @NotNull
-    private Account recipientAccount;
+  @JsonView(View.PaymentsWithDate.class)
+  @ManyToOne
+  @JoinColumn(name = "recipient_legal_entity_id")
+  @NotNull
+  private LegalEntity recipientLegalEntity;
 
-    @ManyToOne
-    @JoinColumn(name = "contract_id")
-    private Contract contract;
+  @JsonView(View.PaymentsWithDate.class)
+  @ManyToOne
+  @JoinColumn(name = "recipient_account_id")
+  @NotNull
+  private Account recipientAccount;
 
-    @Column(name = "currency_code")
-    @NotNull
-    private String currencyCode;
+  @JsonView(View.PaymentsWithDate.class)
+  @ManyToOne
+  @JoinColumn(name = "contract_id")
+  private Contract contract;
 
-    @Column(name = "payment_order_amt")
-    @NotNull
-    private BigDecimal orderAmount;
+  @JsonView(View.PaymentsWithDate.class)
+  @Column(name = "currency_code")
+  @NotNull
+  private String currencyCode;
 
-    @Column(name = "payment_reason")
-    private String reason;
+  @JsonView(View.PaymentsWithDate.class)
+  @Column(name = "payment_order_amt")
+  @NotNull
+  private BigDecimal orderAmount;
 
-    @Column(name = "payment_priority_code")
-    private String priorityCode;
+  @JsonView(View.PaymentsWithDate.class)
+  @Column(name = "payment_reason")
+  private String reason;
 
-    @ManyToOne
-    @JoinColumn(name = "payment_order_status_id")
-    @NotNull
-    private PaymentOrderStatus status;
+  @JsonView(View.PaymentsWithDate.class)
+  @Column(name = "payment_priority_code")
+  private String priorityCode;
 
-    @Column(name = "reject_reason")
-    private String rejectReason;
+  @JsonView(View.PaymentsWithDate.class)
+  @ManyToOne
+  @JoinColumn(name = "payment_order_status_id")
+  @NotNull
+  private PaymentOrderStatus status;
 
-    @Override
-    public String toString() {
-        return "PaymentOrder{" +
-                "id=" + id +
-                ", num=" + num +
-                ", date=" + date +
-                ", senderLegalEntity=" + senderLegalEntity +
-                ", senderAccount=" + senderAccount +
-                ", recipientLegalEntity=" + recipientLegalEntity +
-                ", recipientAccount=" + recipientAccount +
-                ", contract=" + contract +
-                ", currencyCode='" + currencyCode + '\'' +
-                ", orderAmount=" + orderAmount +
-                ", reason='" + reason + '\'' +
-                ", priorityCode='" + priorityCode + '\'' +
-                ", paymentOrderStatus=" + status +
-                ", rejectReason='" + rejectReason + '\'' +
-                '}';
-    }
+  @JsonView(View.PaymentsWithDate.class)
+  @Column(name = "reject_reason")
+  private String rejectReason;
 
-    public int getId() {
-        return id;
-    }
+  @Override
+  public String toString() {
+    return "PaymentOrder{" +
+        "id=" + id +
+        ", num=" + num +
+        ", date=" + date +
+        ", senderLegalEntity=" + senderLegalEntity +
+        ", senderAccount=" + senderAccount +
+        ", recipientLegalEntity=" + recipientLegalEntity +
+        ", recipientAccount=" + recipientAccount +
+        ", contract=" + contract +
+        ", currencyCode='" + currencyCode + '\'' +
+        ", orderAmount=" + orderAmount +
+        ", reason='" + reason + '\'' +
+        ", priorityCode='" + priorityCode + '\'' +
+        ", paymentOrderStatus=" + status +
+        ", rejectReason='" + rejectReason + '\'' +
+        '}';
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public int getNum() {
-        return num;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public void setNum(int num) {
-        this.num = num;
-    }
+  public int getNum() {
+    return num;
+  }
 
-    public Date getDate() {
-        return date;
-    }
+  public void setNum(int num) {
+    this.num = num;
+  }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+  public Date getDate() {
+    return date;
+  }
 
-    public LegalEntity getSenderLegalEntity() {
-        return senderLegalEntity;
-    }
+  public void setDate(Date date) {
+    this.date = date;
+  }
 
-    public void setSenderLegalEntity(LegalEntity senderLegalEntity) {
-        this.senderLegalEntity = senderLegalEntity;
-    }
+  public LegalEntity getSenderLegalEntity() {
+    return senderLegalEntity;
+  }
 
-    public Account getSenderAccount() {
-        return senderAccount;
-    }
+  public void setSenderLegalEntity(LegalEntity senderLegalEntity) {
+    this.senderLegalEntity = senderLegalEntity;
+  }
 
-    public void setSenderAccount(Account senderAccount) {
-        this.senderAccount = senderAccount;
-    }
+  public Account getSenderAccount() {
+    return senderAccount;
+  }
 
-    public LegalEntity getRecipientLegalEntity() {
-        return recipientLegalEntity;
-    }
+  public void setSenderAccount(Account senderAccount) {
+    this.senderAccount = senderAccount;
+  }
 
-    public void setRecipientLegalEntity(LegalEntity recipientLegalEntity) {
-        this.recipientLegalEntity = recipientLegalEntity;
-    }
+  public LegalEntity getRecipientLegalEntity() {
+    return recipientLegalEntity;
+  }
 
-    public Account getRecipientAccount() {
-        return recipientAccount;
-    }
+  public void setRecipientLegalEntity(LegalEntity recipientLegalEntity) {
+    this.recipientLegalEntity = recipientLegalEntity;
+  }
 
-    public void setRecipientAccount(Account recipientAccount) {
-        this.recipientAccount = recipientAccount;
-    }
+  public Account getRecipientAccount() {
+    return recipientAccount;
+  }
 
-    public Contract getContract() {
-        return contract;
-    }
+  public void setRecipientAccount(Account recipientAccount) {
+    this.recipientAccount = recipientAccount;
+  }
 
-    public void setContract(Contract contract) {
-        this.contract = contract;
-    }
+  public Contract getContract() {
+    return contract;
+  }
 
-    public String getCurrencyCode() {
-        return currencyCode;
-    }
+  public void setContract(Contract contract) {
+    this.contract = contract;
+  }
 
-    public void setCurrencyCode(String currencyCode) {
-        this.currencyCode = currencyCode;
-    }
+  public String getCurrencyCode() {
+    return currencyCode;
+  }
 
-    public BigDecimal getOrderAmount() {
-        return orderAmount;
-    }
+  public void setCurrencyCode(String currencyCode) {
+    this.currencyCode = currencyCode;
+  }
 
-    public void setOrderAmount(BigDecimal orderAmount) {
-        this.orderAmount = orderAmount;
-    }
+  public BigDecimal getOrderAmount() {
+    return orderAmount;
+  }
 
-    public String getReason() {
-        return reason;
-    }
+  public void setOrderAmount(BigDecimal orderAmount) {
+    this.orderAmount = orderAmount;
+  }
 
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
+  public String getReason() {
+    return reason;
+  }
 
-    public String getPriorityCode() {
-        return priorityCode;
-    }
+  public void setReason(String reason) {
+    this.reason = reason;
+  }
 
-    public void setPriorityCode(String priorityCode) {
-        this.priorityCode = priorityCode;
-    }
+  public String getPriorityCode() {
+    return priorityCode;
+  }
 
-    public PaymentOrderStatus getStatus() {
-        Cache cache = Cache.getCache();
-        return cache.getPaymentStatusById(status.getId());
-    }
+  public void setPriorityCode(String priorityCode) {
+    this.priorityCode = priorityCode;
+  }
 
-    public void setStatus(PaymentOrderStatus paymentOrderStatus) {
-        this.status = paymentOrderStatus;
-    }
+  public PaymentOrderStatus getStatus() {
+    Cache cache = Cache.getCache();
+    return cache.getPaymentStatusById(status.getId());
+  }
 
-    public String getRejectReason() {
-        return rejectReason;
-    }
+  public void setStatus(PaymentOrderStatus paymentOrderStatus) {
+    this.status = paymentOrderStatus;
+  }
 
-    public void setRejectReason(String rejectReason) {
-        this.rejectReason = rejectReason;
-    }
+  public String getRejectReason() {
+    return rejectReason;
+  }
+
+  public void setRejectReason(String rejectReason) {
+    this.rejectReason = rejectReason;
+  }
 }

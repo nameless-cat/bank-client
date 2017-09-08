@@ -1,9 +1,11 @@
 package ru.atc.bclient.model.entities.dim;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import ru.atc.bclient.cache.Cache;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import ru.atc.bclient.web.controller.view.View;
 
 @NamedQueries({@NamedQuery(name = Account.All, query = "SELECT ac FROM Account ac")})
 @Table(name = "dim_account", schema = "bclient", uniqueConstraints = {@UniqueConstraint(columnNames = {"account_num"}, name = "uk_account_num")})
@@ -25,6 +27,7 @@ public class Account{
     @NotNull
     private String name;
 
+    @JsonView(View.PaymentsWithDate.class)
     @Column(name = "account_num")
     private String num;
 

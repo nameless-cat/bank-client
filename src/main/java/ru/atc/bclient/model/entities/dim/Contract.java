@@ -1,9 +1,11 @@
 package ru.atc.bclient.model.entities.dim;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.time.LocalDateTime;
+import ru.atc.bclient.web.controller.view.View;
 
 @Table(name = "dim_contract", schema = "bclient")
 @Entity
@@ -16,10 +18,12 @@ public class Contract {
     @Access(AccessType.PROPERTY)
     private int id;
 
+    @JsonView(View.PaymentsWithDate.class)
     @Column(name = "contract_name")
     @NotNull
     private String name;
 
+    @JsonView(View.PaymentsWithDate.class)
     @Column(name = "contract_num")
     @NotNull
     private String num;

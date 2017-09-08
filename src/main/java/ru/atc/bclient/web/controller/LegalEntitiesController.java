@@ -16,35 +16,37 @@ import java.sql.Date;
 
 @Controller
 public class LegalEntitiesController {
-    @Autowired
-    private LegalEntityService legalEntityService;
-    @Autowired
-    private AccountBalanceService accountBalanceService;
-    @Autowired
-    private CurrentInformation currentInformation;
 
-    @Autowired
-    private PaymentOrderService paymentOrderService;
+  @Autowired
+  private LegalEntityService legalEntityService;
+  @Autowired
+  private AccountBalanceService accountBalanceService;
+  @Autowired
+  private CurrentInformation currentInformation;
 
-    @Autowired
-    private AccountService accountService;
+  @Autowired
+  private PaymentOrderService paymentOrderService;
 
-    @RequestMapping(value = "manage/accounts", method = RequestMethod.GET)
-    public ModelAndView accounts(@RequestParam(name = "legalEntityId", required = false) Integer legalEntityId) {
-        LegalEntity legalEntity;
-        if (legalEntityId == null) {
-            legalEntity = currentInformation.getLegalEntity();
-            legalEntityId = legalEntity.getId();
-        } else {
-            legalEntity = legalEntityService.getById(legalEntityId);
-        }
-        ModelAndView modelAndView = new ModelAndView();
+  @Autowired
+  private AccountService accountService;
 
-        currentInformation.setLegalEntity(legalEntity);
-        modelAndView.addObject("accounts", accountService.getAllByLegalEntityId(legalEntityId));
-        modelAndView.setViewName("manage/account");
-        return modelAndView;
+  @RequestMapping(value = "manage/accounts", method = RequestMethod.GET)
+  public ModelAndView accounts(
+      @RequestParam(name = "legalEntityId", required = false) Integer legalEntityId) {
+    LegalEntity legalEntity;
+    if (legalEntityId == null) {
+      legalEntity = currentInformation.getLegalEntity();
+      legalEntityId = legalEntity.getId();
+    } else {
+      legalEntity = legalEntityService.getById(legalEntityId);
     }
+    ModelAndView modelAndView = new ModelAndView();
+
+    currentInformation.setLegalEntity(legalEntity);
+    modelAndView.addObject("accounts", accountService.getAllByLegalEntityId(legalEntityId));
+    modelAndView.setViewName("manage/account");
+    return modelAndView;
+  }
 
 //    @GetMapping(value = "/manage/payments")
 //    public ModelAndView payments() {
@@ -55,20 +57,16 @@ public class LegalEntitiesController {
 //    }
 
 
-    @GetMapping(value = "/manage/payments/cancel")
-    public String delete(@RequestParam("paymentId") int paymentOrderId) {
-        paymentOrderService.cancel(paymentOrderId, currentInformation.getLegalEntity().getId());
-        return "redirect:/manage/payments/";
-    }
 
 
-    @RequestMapping(value = "/manage/show_payments", method = RequestMethod.GET)
-    public String toPayments(@RequestParam("legalEntityId") int id) {
-        ModelAndView modelAndView = new ModelAndView();
-        LegalEntity legalEntity = legalEntityService.getByIdWithAccounts(id);
-        currentInformation.setLegalEntity(legalEntity);
-        return "redirect:/manage/payments";
-    }
+
+  @RequestMapping(value = "/manage/show_payments", method = RequestMethod.GET)
+  public String toPayments(@RequestParam("legalEntityId") int id) {
+    ModelAndView modelAndView = new ModelAndView();
+    LegalEntity legalEntity = legalEntityService.getByIdWithAccounts(id);
+    currentInformation.setLegalEntity(legalEntity);
+    return "redirect:/manage/payments";
+  }
 
     @RequestMapping(value = "/manage/payments", method = RequestMethod.GET)
     public ModelAndView paymentsWithDate(
@@ -87,20 +85,19 @@ public class LegalEntitiesController {
         return modelAndView;
     }
 
-
 //    @GetMapping(value = "/manage/account")
 //    public ModelAndView accountsGet(ModelAndView modelAndView){
 //        return modelAndView;
 //    }
 
-    @RequestMapping(value = "/manage/account/balance", method = RequestMethod.GET)
-    public ModelAndView getBalance(@RequestParam("accountId") int accountId) {
-        ModelAndView modelAndView = new ModelAndView();
-        AccountBalance newestByAccountId = accountBalanceService.getNewestByAccountId(accountId);
-        modelAndView.addObject("currentBalance", newestByAccountId);
-        modelAndView.setViewName("manage/balance");
-        return modelAndView;
-    }
+  @RequestMapping(value = "/manage/account/balance", method = RequestMethod.GET)
+  public ModelAndView getBalance(@RequestParam("accountId") int accountId) {
+    ModelAndView modelAndView = new ModelAndView();
+    AccountBalance newestByAccountId = accountBalanceService.getNewestByAccountId(accountId);
+    modelAndView.addObject("currentBalance", newestByAccountId);
+    modelAndView.setViewName("manage/balance");
+    return modelAndView;
+  }
 
 
 }
